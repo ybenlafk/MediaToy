@@ -1,15 +1,39 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { getCookie } from '@/utils/utils'
+import axios from 'axios'
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
+
 
   const signup = () => { router.push('/register') }
   const signin = () => { router.push('/login') }
+  const accessToken = getCookie('access_token');
+
+  
+  useEffect(() => {
+    axios.get("http://localhost:8080/auth/protected", {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    })
+    .then(response => {
+      if (response.status === 200)
+        setIsAuthenticated(true)
+      else
+        setIsAuthenticated(false)
+    })
+    .catch(error => {
+      console.log("Error during protected endpoint request", error);
+    });
+  } , [accessToken])
+
 
   const handleToggle = () => { setIsOpen(!isOpen) }
 
@@ -17,14 +41,9 @@ const Navbar = () => {
     <div className='flex justify-center items-center h-[4%] bg-[#4F4557]'>
         <div className='flex justify-between items-center w-[90%] 2xl:w-[50%]'>
             <Link href='/' className='text-2xl text-[#F4EEE0] cursor-pointer'>MediaToy</Link>
-            <div className='flex space-x-4 items-center'>
-              <button onClick={signin} className="px-4 h-10 rounded-xl border border-neutral-600 text-[#F4EEE0] bg-[#393646] hover:bg-[#6D5D6E] transition duration-200">
-                  Sign In
-              </button>
-              <button onClick={signup} className="px-4 h-10 rounded-xl border border-neutral-600 text-[#F4EEE0] bg-[#393646] hover:bg-[#6D5D6E] transition duration-200">
-                  Sign Up
-              </button>
-              {/* <div className="relative inline-block text-left">
+           <div className='flex space-x-4 items-center'>
+           { isAuthenticated ?
+              <div className="relative inline-block text-left">
                 <button 
                 onClick={handleToggle}
                 className="flex items-center text-sm pe-1 font-medium text-[#F4EEE0] rounded-full p-2 hover:bg-[#695d73] transition duration-300" 
@@ -52,7 +71,17 @@ const Navbar = () => {
                     <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-[#7c6e88]">Sign out</a>
                   </div>
                 </div>
-              </div> */}
+              </div>
+              :
+              <>
+              <button onClick={signin} className="px-4 h-10 rounded-xl border border-neutral-600 text-[#F4EEE0] bg-[#393646] hover:bg-[#6D5D6E] transition duration-200">
+                  Sign In
+              </button>
+              <button onClick={signup} className="px-4 h-10 rounded-xl border border-neutral-600 text-[#F4EEE0] bg-[#393646] hover:bg-[#6D5D6E] transition duration-200">
+                  Sign Up
+              </button>
+              </>
+              }
             </div>
         </div>
     </div>

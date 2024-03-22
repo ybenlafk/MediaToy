@@ -1,16 +1,57 @@
+'use client'
 import React from 'react'
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/lable";
+import { useRouter } from 'next/navigation';
 
 import { useForm } from "react-hook-form";
 import { cn } from '@/components/cn';
 
 import { IconBrandGoogle } from "@tabler/icons-react";
 import Link from 'next/link';
+import axios from 'axios';
 
 const login = () => {
+    const router = useRouter();
+    const form = useForm();
 
-    // const form = useForm();
+    const onSubmit = (data: any) => {
+        axios.post("http://localhost:8080/auth/login", {
+          username: data?.email,
+          password: data?.password
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(res => {
+          const data = res.data;
+
+          const accessToken = data.access_token;
+    
+          document.cookie = `access_token=${data.access_token}; path=/;`;
+          if (accessToken) {
+            // Access token is present, make a request to the protected endpoint
+            axios.get("http://localhost:8080/auth/protected", {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            })
+            .then(response => {
+              if (response.status === 200)
+                router.push('/');
+              else
+                console.log("Failed to authenticate with protected endpoint");
+            })
+            .catch(error => {
+              console.log("Error during protected endpoint request", error);
+            });
+          }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
     return (
         <div className="w-full h-full flex items-center justify-center">
             <div className="max-w-md lg:w-full w-[80%] mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#312f38] ring-[0.2px] ring-[#F4EEE0] z-10">
@@ -20,15 +61,15 @@ const login = () => {
                 Login
             </h1>
 
-            <form className="my-8" >
+            <form className="my-8" onSubmit={form.handleSubmit(onSubmit)}>
                 <LabelInputContainer className="mb-4">
-                <Label htmlFor="username">Email</Label>
-                <Input id="username" placeholder="Tylerlol@gmail.com" type="text"/>
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" placeholder="Tylerlol@gmail.com" type="text" {...form.register('email')}/>
                 {/* {is === 3 && <p className="text-red-500 text-sm my-4">{error}</p>} */}
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" placeholder="••••••••" type="password"/>
+                <Input id="password" placeholder="••••••••" type="password" {...form.register('password')}/>
                 {/* {is === 4 && <p className="text-red-500 text-sm my-4">{error}</p>} */}
                 </LabelInputContainer>
                 <button

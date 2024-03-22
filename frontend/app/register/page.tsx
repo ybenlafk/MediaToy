@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/lable";
@@ -7,11 +8,19 @@ import { cn } from '@/components/cn';
 
 import { IconBrandGoogle } from "@tabler/icons-react";
 import Link from 'next/link';
+import axios from 'axios';
 
 
 
 const register = () => {
     const form = useForm();
+
+    const onSubmit = (data : any) => {
+        axios.post('http://localhost:8080/auth/signup', data)
+        .catch(err => {
+            console.log(err);
+        })
+    }
     return (
         <div className="w-full h-full flex items-center justify-center">
             <div className="max-w-md lg:w-full w-[80%] mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#312f38] ring-[0.2px] ring-[#F4EEE0] z-10">
@@ -21,21 +30,17 @@ const register = () => {
                 Register
             </h1>
 
-            <form className="my-8" onSubmit={form.handleSubmit((data) => console.log(data))}>
+            <form className="my-8" onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                     <Label htmlFor="firstname">Name</Label>
                     <Input id="firstname" placeholder="Tyler" type="text" {...form.register("name")} />
                 </LabelInputContainer>
-                <LabelInputContainer>
-                    <Label htmlFor="lastname">Nickname</Label>
-                    <Input id="lastname" placeholder="Durden" type="text" {...form.register("nickname")} />
-                </LabelInputContainer>
                 </div>
                 {/* {(is === 1 || is === 2) && <p className="text-red-500 text-sm my-4">{error}</p>} */}
                 <LabelInputContainer className="mb-4">
                 <Label htmlFor="username">Email</Label>
-                <Input id="username" placeholder="Tylerlol@gmail.com" type="text" {...form.register("username")} />
+                <Input id="username" placeholder="Tylerlol@gmail.com" type="text" {...form.register("email")} />
                 {/* {is === 3 && <p className="text-red-500 text-sm my-4">{error}</p>} */}
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">

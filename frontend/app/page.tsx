@@ -1,4 +1,4 @@
-import Image from "next/image";
+import React from "react";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 
 const images = [
