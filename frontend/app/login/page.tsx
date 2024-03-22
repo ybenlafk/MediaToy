@@ -10,11 +10,13 @@ import { cn } from '@/components/cn';
 import { IconBrandGoogle } from "@tabler/icons-react";
 import Link from 'next/link';
 import axios from 'axios';
+import { useGlobalState } from '../components/globalState';
 
 const login = () => {
     const router = useRouter();
     const form = useForm();
-
+    const {state,dispatch} = useGlobalState();
+    const {reload} = state;
     const onSubmit = (data: any) => {
         axios.post("http://localhost:8080/auth/login", {
           username: data?.email,
@@ -39,13 +41,12 @@ const login = () => {
             })
             .then(response => {
               if (response.status === 200)
+              {
                 router.push('/');
-              else
-                console.log("Failed to authenticate with protected endpoint");
+                dispatch({type: 'UPDATE_RELOAD', payload: !reload});
+              }
             })
-            .catch(error => {
-              console.log("Error during protected endpoint request", error);
-            });
+            .catch(() => {});
           }
         })
         .catch(err => {

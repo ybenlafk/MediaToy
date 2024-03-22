@@ -1,10 +1,11 @@
 "use client";
 import { useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/components/cn";
 import { DirectionAwareHover } from "@/components/ui/direction-aware-hover";
+import PostPopUp from "@/app/components/Post/PostPopUp";
 
 export const ParallaxScroll = ({
   images,
@@ -19,6 +20,9 @@ export const ParallaxScroll = ({
     offset: ["start start", "end start"], // remove this if your container is not fixed height
   });
 
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [popUpData, setPopUpData] = useState(null as any);
+
   const translateFirst = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const translateSecond = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const translateThird = useTransform(scrollYProgress, [0, 1], [0, -200]);
@@ -28,7 +32,16 @@ export const ParallaxScroll = ({
   const firstPart = images.slice(0, third);
   const secondPart = images.slice(third, 2 * third);
   const thirdPart = images.slice(2 * third);
-
+  if (isPopUpOpen && popUpData) {
+    return (
+      <PostPopUp
+        title={popUpData.title}
+        description={popUpData.description}
+        imageUrl={popUpData.imageUrl}
+        onClose={() => setIsPopUpOpen(false)}
+      />
+    );
+  }
   return (
     <div
       className={cn("h-screen items-start overflow-y-auto w-full", className)}
@@ -47,6 +60,14 @@ export const ParallaxScroll = ({
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
               className="cursor-pointer"
+              onClick={() => {
+                setIsPopUpOpen(true);
+                setPopUpData({
+                  title: "Title",
+                  description: "Description",
+                  imageUrl: el,
+                });
+          }}
             >
               <DirectionAwareHover imageUrl={el}>
                <div className="flex justify-center items-center gap-2">

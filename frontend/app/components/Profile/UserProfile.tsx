@@ -1,19 +1,41 @@
 'use client';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Input} from '@/components/ui/input';
+import { useGlobalState } from '../globalState';
+import { getCookie } from '@/utils/utils';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const UserProfile = () => {
-  // Dummy data for demonstration
   const [followersCount, setFollowersCount] = useState(100);
   const [followingCount, setFollowingCount] = useState(50);
-  const [isEditing, setIsEditing] = useState(false); // State to track if the user is editing the profile
+  const [isEditing, setIsEditing] = useState(false);
+  const router = useRouter();
 
-  // Handler for toggling edit mode
+  const accessToken = getCookie('access_token');
+  useEffect(() => {
+    axios.get("http://localhost:8080/auth/protected", {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    })
+    .then(res => {
+      if (res.status !== 200)
+        router.push('/login');
+    })
+    .catch(()=>{router.push('/login');});
+  }, []);
+
+  const {state} = useGlobalState();
+  const {user} = state;
+
   const toggleEditMode = () => {
     setIsEditing(prevState => !prevState);
   };
-
+  if (!user) return (
+    <div className='flex flex-col justify-center items-center h-screen'>
+      <div className='loader'/>
+    </div>
+  )
   return (
     <div className='flex flex-col justify-center items-center py-40'>
       <Image
@@ -24,7 +46,7 @@ const UserProfile = () => {
         className='rounded-full h-40 w-40 ring-4 ring-[#F4EEE0]'
       />
       <div className='flex flex-col justify-center items-center py-10'>
-        <h1 className='text-2xl font-bold'>Jane Doe</h1>
+        <h1 className='text-2xl font-bold'>{user && user?.name}</h1>
         <p className='text-gray-500 w-[50%] text-center'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>

@@ -9,14 +9,19 @@ import { cn } from '@/components/cn';
 import { IconBrandGoogle } from "@tabler/icons-react";
 import Link from 'next/link';
 import axios from 'axios';
-
+import { useRouter } from 'next/navigation';
 
 
 const register = () => {
     const form = useForm();
+    const router = useRouter();
 
     const onSubmit = (data : any) => {
         axios.post('http://localhost:8080/auth/signup', data)
+        .then(res => {
+          if (res.status === 200)
+            router.push('/login');
+        })
         .catch(err => {
             console.log(err);
         })
