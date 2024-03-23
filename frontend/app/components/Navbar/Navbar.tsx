@@ -80,7 +80,7 @@ const Navbar = () => {
                       className="flex items-center text-sm pe-1 font-medium text-[#F4EEE0] rounded-full p-2 hover:bg-[#695d73] transition duration-300 focus:outline-none" 
                       >
                       <span className="sr-only">{user && user?.name}</span>
-                      <Image className="w-8 h-8 me-2 rounded-full" src="/user.png" alt="user photo" width={100} height={100} />
+                      <Image className="w-8 h-8 me-2 rounded-full object-cover" src={(user && user?.picture) || "/user.png"} alt="user photo" width={100} height={100} />
                       {user && user?.name}
                       <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>

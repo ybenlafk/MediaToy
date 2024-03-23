@@ -39,11 +39,11 @@ const UserProfile = () => {
   return (
     <div className='flex flex-col justify-center items-center py-40'>
       <Image
-        src='/user.png'
+        src={(user && user?.picture) || '/user.png'}
         alt='Picture of the author'
         width={500}
         height={500}
-        className='rounded-full h-40 w-40 ring-4 ring-[#F4EEE0]'
+        className='rounded-full h-40 w-40 ring-4 ring-[#F4EEE0] object-cover'
       />
       <div className='flex flex-col justify-center items-center py-10'>
         <h1 className='text-2xl font-bold'>{user && user?.name}</h1>

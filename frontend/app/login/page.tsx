@@ -53,6 +53,9 @@ const login = () => {
             console.log(err);
         })
     }
+
+    const handleGoogle = () => { router.push('http://localhost:8080/auth/google'); }
+
     return (
         <div className="w-full h-full flex items-center justify-center">
             <div className="max-w-md lg:w-full w-[80%] mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#312f38] ring-[0.2px] ring-[#F4EEE0] z-10">
@@ -87,7 +90,7 @@ const login = () => {
                     <button
                     className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full  rounded-md h-10 font-medium shadow-input bg-[#393646]"
                     type="button"
-                    //   onClick={handleGoogle}
+                    onClick={handleGoogle}
                     >
                     <IconBrandGoogle className="h-4 w-4 text-neutral-300" />
                     <span className="text-neutral-300 text-sm">
