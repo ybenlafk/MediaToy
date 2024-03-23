@@ -95,7 +95,7 @@ const Navbar = () => {
                             <Link href="/User" className="block px-4 py-2 hover:bg-[#7c6e88]">Profile</Link>
                           </li>
                           <li onClick={handleToggle}>
-                            <Link href="#" className="block px-4 py-2 hover:bg-[#7c6e88]">My posts</Link>
+                            <Link href="/User/settings" className="block px-4 py-2 hover:bg-[#7c6e88]">Settings</Link>
                           </li>
                         </ul>
                         <div className="py-2" onClick={handleLogout}>

@@ -19,7 +19,8 @@ const register = () => {
     const onSubmit = (data : any) => {
         axios.post('http://localhost:8080/auth/signup', data)
         .then(res => {
-          if (res.status === 200)
+          form.reset();
+          if (res.status === 201)
             router.push('/login');
         })
         .catch(err => {

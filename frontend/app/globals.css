@@ -59,3 +59,13 @@ body {
 @keyframes l14 {
   100% {left: calc(100% + 20px)}
 }
+
+.no-visible-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-visible-scrollbar::-webkit-scrollbar {
+  display: none;
+}

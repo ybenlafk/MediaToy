@@ -32,7 +32,7 @@ export const ParallaxScroll = ({
  
   return (
     <div
-      className={cn("h-screen items-start overflow-y-auto w-full", className)}
+      className={cn("h-screen items-start overflow-y-auto w-full no-visible-scrollbar", className)}
       ref={gridRef}
     >
       <div
