@@ -5,6 +5,7 @@ CREATE TABLE "user" (
     "name" TEXT,
     "email" TEXT,
     "password" TEXT,
+    "picture" TEXT DEFAULT 'https://i.ibb.co/FsdsTYc/s-Instagram-photo-Soulless-Manga-Jujutsu-Kaisen-Artist-syrnrr-CLa5z-N2l-D1-L-JPG.jpg',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
@@ -26,6 +27,9 @@ CREATE TABLE "_userToUser" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_userToUser_AB_unique" ON "_userToUser"("A", "B");

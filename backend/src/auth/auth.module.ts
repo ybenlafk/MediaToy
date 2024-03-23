@@ -7,12 +7,13 @@ import { UserService } from 'src/user/user.service';
 import { BlacklistService } from './blacklist.service';
 import { LocalStrategy } from './strategys/local.strategy';
 import { JwtStrategy } from './strategys/jwt.strategy';
+import { GoogleStrategy } from './strategys/google.strategy';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({ secret: process.env.SECRET, signOptions: { expiresIn: '1w' }})],
   controllers: [AuthController],
-  providers: [AuthService, UserService, BlacklistService, LocalStrategy, JwtStrategy]
+  providers: [AuthService, UserService, BlacklistService, LocalStrategy, JwtStrategy, GoogleStrategy]
 })
 export class AuthModule {}
