@@ -131,9 +131,8 @@ const UserProfile = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.2 }}
-          className='h-[800px]'
         >
-          <ParallaxScroll images={images} />
+          <ParallaxScroll images={images} className='h-[800px]'/>
         </motion.div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import EditProfile from '@/app/components/Profile/EditProfile'
 
 const Settings = () => {
   return (
-    <div>
+    <div className='w-full flex justify-center items-center'>
         <EditProfile />
     </div>
   )
