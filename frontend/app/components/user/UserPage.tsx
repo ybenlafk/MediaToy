@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 
+
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 
 const images = [
@@ -23,15 +24,15 @@ const images = [
   "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
 ];
 
-const UserProfile = () => {
-  const [followersCount, setFollowersCount] = useState(100);
-  const [followingCount, setFollowingCount] = useState(50);
+const UserPage = ({target} : any) => {
+    
+    const [followersCount, setFollowersCount] = useState(100);
+    const [followingCount, setFollowingCount] = useState(50);
 
-  const {state} = useGlobalState();
-  const {user} = state;
 
+   
   
-  if (!user) return (
+  if (!target) return (
     <div className='flex flex-col justify-center items-center h-screen'>
       <div className='loader'/>
     </div>
@@ -44,7 +45,7 @@ const UserProfile = () => {
         transition={{ duration: 0.5 }}
       >
         <Image
-          src={(user && user?.picture) || '/user.png'}
+          src={(target && target?.picture) || '/user.png'}
           alt='Picture of the author'
           width={500}
           height={500}
@@ -58,7 +59,7 @@ const UserProfile = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className='text-2xl font-bold'
         >
-          {user && user?.name}
+          {target && target?.name}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: -20 }}
@@ -126,4 +127,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserPage;

@@ -1,27 +1,12 @@
 'use client';
 import React, {useEffect, useState} from 'react'
 import Image from 'next/image'
-import { getCookie } from '@/utils/utils';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion'
 import { useGlobalState } from '../globalState'
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
 
 const EditProfile = () => {
-    const router = useRouter();
-
-    const accessToken = getCookie('access_token');
-    useEffect(() => {
-        axios.get("http://localhost:8080/auth/protected", {
-        headers: { 'Authorization': `Bearer ${accessToken}` }
-        })
-        .then(res => {
-        if (res.status !== 200)
-            router.push('/login');
-        })
-        .catch(()=>{router.push('/login');});
-    }, []);
     const {state} = useGlobalState();
     const {user} = state;
 
@@ -45,7 +30,6 @@ const EditProfile = () => {
                 layout="fill"
                 objectFit="cover"
             />
-            <div className="absolute inset-0 h-full w-1/2 bg-white"></div>
         </div>
         <label htmlFor="uploadFile1"
             className="bg-white hover:bg-gray-200 text-[#000000] mt-4 text-sm px-4 py-2.5 outline-none rounded text-center w-[10%] cursor-pointer mx-auto block font-[sans-serif]">
